@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIEM Lite Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1e1e2f; color: #eee; }
+        h1 { text-align: center; color: #4CAF50; }
+        table { width: 90%; margin: auto; border-collapse: collapse; background: #2a2a3d; margin-bottom: 40px; }
+        th, td { border: 1px solid #555; padding: 8px; text-align: left; }
+        th { background: #333; color: #4CAF50; }
+        tr:nth-child(even) { background: #242437; }
+        #chart { width: 80%; margin: auto; }
+    </style>
+</head>
+<body>
+    <h1>🚀 SIEM Lite - Failed Login Attempts</h1>
+
+    <!-- Chart -->
+    <div id="chart"></div>
+    <script>
+        var ips = {{ ips | safe }};
+        var counts = {{ counts | safe }};
+        var data = [{
+            x: ips,
+            y: counts,
+            type: 'bar',
+            marker: { color: 'tomato' }
+        }];
+        var layout = {
+            title: 'Top Attacker IPs',
+            xaxis: { title: 'Source IP' },
+            yaxis: { title: 'Failed Attempts' }
+        };
+        Plotly.newPlot('chart', data, layout);
+    </script>
+
+    <!-- Logs Table -->
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>Source IP</th>
+            <th>Message</th>
+            <th>Severity</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log[0] }}</td>
+            <td>{{ log[1] }}</td>
+            <td>{{ log[2] }}</td>
+            <td>{{ log[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
