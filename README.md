@@ -42,6 +42,7 @@ source siem-env/bin/activate
 pip install flask sqlite3
 4️⃣ Collect logs
 Run the log collector to parse SSH failed logins:
+cd project
 cd collector
 python3 log_parser.py
 Check if logs are stored:
